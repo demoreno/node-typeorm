@@ -1,18 +1,32 @@
 import {Request, Response} from "express";
 import {getManager} from "typeorm";
 import {User} from "../entity/User";
+import {utilsResponse} from '../utils/Utilsresponse';
 
 /**
- * Loads all posts from the database.
+ *
+ * @param {} request
+ * @param {} response
+ * @returns {Promise<void>}
  */
 export async function getUsers(request: Request, response: Response) {
-
-    // get a post repository to perform operations with post
     const postRepository = getManager().getRepository(User);
-
-    // load a post by a given post id
     const users = await postRepository.find();
-
-    // return loaded posts
-    response.send(users);
+    utilsResponse(response,200,users,[]);
 }
+
+/**
+ *
+ * @param {} request
+ * @param {} response
+ * @returns {Promise<void>}
+ */
+export async function getUsersById(request: Request, response: Response) {
+    const user = await getManager()
+        .getRepository(User)
+        .createQueryBuilder("user")
+        .where("user.id = :id", { id: request.params.id })
+        .execute();
+    utilsResponse(response,200,user,[]);
+}
+
