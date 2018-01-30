@@ -3,7 +3,7 @@ import {getManager} from "typeorm";
 import {User} from "../entity/User";
 
 /**
- * Loads all posts from the database.
+ *   Loads all posts from the database.
  */
 export async function getUsers(request: Request, response: Response) {
 
